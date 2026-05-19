@@ -1,129 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Dashboard</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-   <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEOlens — Professional SEO Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- jsPDF for export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <div class="dashboard">
-        <div class="sidebar">
-            <h2>Dashboard</h2>
-            <div class="nav-item active" onclick="showSection('overview')">📊 Overview</div>
-            <div class="nav-item" onclick="showSection('analytics')">📈 Analytics</div>
-            <div class="nav-item" onclick="showSection('users')">👥 Users</div>
-            <div class="nav-item" onclick="showSection('settings')">⚙️ Settings</div>
-        </div>
 
-        <div class="header">
-            <h1>Dashboard Overview</h1>
-            <div class="user-info">
-                <span id="current-time"></span>
-                <div class="user-avatar">AR</div>
-            </div>
-        </div>
+  <!-- ───────────── HEADER ───────────── -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="13" stroke="var(--accent)" stroke-width="2"/>
+          <path d="M8 14 Q14 6 20 14 Q14 22 8 14Z" fill="var(--accent)" opacity="0.85"/>
+          <circle cx="14" cy="14" r="3" fill="var(--bg-card)"/>
+        </svg>
+      </span>
+      <span class="logo-text">SEO<strong>lens</strong></span>
+    </div>
+    <nav class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+        <span class="theme-icon" id="themeIcon">☀️</span>
+        <span>Light Mode</span>
+      </button>
+    </nav>
+  </header>
 
-        <div class="main">
-            <div class="stats-grid">
-                <div class="stat-card pulse">
-                    <div class="stat-number" id="users-count">1,234</div>
-                    <div class="stat-label">Total Users</div>
-                    <div class="stat-change positive">+12% from last month</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="revenue-count">₹4,56,789</div>
-                    <div class="stat-label">Monthly Revenue</div>
-                    <div class="stat-change positive">+8% from last month</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="orders-count">456</div>
-                    <div class="stat-label">Orders</div>
-                    <div class="stat-change negative">-3% from last month</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="conversion-rate">3.2%</div>
-                    <div class="stat-label">Conversion Rate</div>
-                    <div class="stat-change positive">+0.5% from last month</div>
-                </div>
-            </div>
+  <!-- ───────────── HERO ───────────── -->
+  <section class="hero">
+    <div class="hero-badge">Free SEO Analysis Tool</div>
+    <h1 class="hero-title">Diagnose Your Website's<br/><em>SEO Health</em> Instantly</h1>
+    <p class="hero-sub">Real DOM-parsed checks. No fake scores. No fluff. Identify what's hurting your rankings in seconds.</p>
 
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <div class="chart-title">Monthly Performance</div>
-                    <canvas id="lineChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">Recent Activity</div>
-                    <div class="activity-list" id="activity-list">
-                        <div class="activity-item">
-                            <div>New user registration</div>
-                            <div class="activity-time">2 minutes ago</div>
-                        </div>
-                        <div class="activity-item">
-                            <div>Order #1234 completed</div>
-                            <div class="activity-time">5 minutes ago</div>
-                        </div>
-                        <div class="activity-item">
-                            <div>Payment received</div>
-                            <div class="activity-time">10 minutes ago</div>
-                        </div>
-                        <div class="activity-item">
-                            <div>System backup completed</div>
-                            <div class="activity-time">1 hour ago</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="search-container">
+      <div class="search-box" id="searchBox">
+        <span class="search-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </span>
+        <input
+          type="url"
+          id="urlInput"
+          class="url-input"
+          placeholder="https://example.com"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="analyze-btn" id="analyzeBtn">
+          <span id="btnText">Analyze SEO</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+      <p class="search-hint">Try any public URL — results depend on CORS policy of the target server</p>
+    </div>
+  </section>
 
-            <div class="table-container">
-                <div class="chart-title">Recent Transactions</div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactions-table">
-                        <tr>
-                            <td>#1001</td>
-                            <td>Rajesh Kumar</td>
-                            <td>₹2,499</td>
-                            <td><span class="status-badge status-active">Completed</span></td>
-                            <td>15-01-2024</td>
-                        </tr>
-                        <tr>
-                            <td>#1002</td>
-                            <td>Priya Sharma</td>
-                            <td>₹999</td>
-                            <td><span class="status-badge status-pending">Pending</span></td>
-                            <td>14-01-2024</td>
-                        </tr>
-                        <tr>
-                            <td>#1003</td>
-                            <td>Amit Patel</td>
-                            <td>₹1,999</td>
-                            <td><span class="status-badge status-active">Completed</span></td>
-                            <td>13-01-2024</td>
-                        </tr>
-                        <tr>
-                            <td>#1004</td>
-                            <td>Sneha Reddy</td>
-                            <td>₹799</td>
-                            <td><span class="status-badge status-inactive">Failed</span></td>
-                            <td>12-01-2024</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <!-- ───────────── LOADING ───────────── -->
+  <div class="loading-overlay" id="loadingOverlay" hidden>
+    <div class="loading-card">
+      <div class="loader-ring">
+        <svg class="spinner" viewBox="0 0 50 50">
+          <circle class="spinner-track" cx="25" cy="25" r="20" fill="none" stroke-width="4"/>
+          <circle class="spinner-head" cx="25" cy="25" r="20" fill="none" stroke-width="4"/>
+        </svg>
+      </div>
+      <p class="loading-label" id="loadingLabel">Fetching page…</p>
+      <div class="loading-steps" id="loadingSteps">
+        <span class="step" id="step1">⬜ Fetching HTML</span>
+        <span class="step" id="step2">⬜ Parsing DOM</span>
+        <span class="step" id="step3">⬜ Running checks</span>
+        <span class="step" id="step4">⬜ Scoring</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────── RESULTS ───────────── -->
+  <section class="results-section" id="resultsSection" hidden>
+    <div class="results-header">
+      <div class="results-meta">
+        <h2 class="results-title">SEO Report</h2>
+        <p class="results-url" id="resultsUrl"></p>
+        <p class="results-timestamp" id="resultsTimestamp"></p>
+      </div>
+      <button class="export-btn" id="exportBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export PDF
+      </button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Score Meter -->
+    <div class="score-banner" id="scoreBanner">
+      <div class="score-circle-wrap">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="score-ring-bg" cx="60" cy="60" r="52" fill="none" stroke-width="8"/>
+          <circle class="score-ring-fill" id="scoreRingFill" cx="60" cy="60" r="52" fill="none" stroke-width="8"
+            stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round"/>
+        </svg>
+        <div class="score-center">
+          <span class="score-number" id="scoreNumber">0</span>
+          <span class="score-label">/ 100</span>
+        </div>
+      </div>
+      <div class="score-details">
+        <h3 class="score-grade" id="scoreGrade">–</h3>
+        <p class="score-desc" id="scoreDesc">–</p>
+        <div class="score-legend">
+          <span class="legend-item good"><span class="dot"></span>Good</span>
+          <span class="legend-item warn"><span class="dot"></span>Warning</span>
+          <span class="legend-item bad"><span class="dot"></span>Issue</span>
+        </div>
+        <div class="check-counts" id="checkCounts"></div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="score-progress-wrap">
+      <div class="score-progress-bar">
+        <div class="score-progress-fill" id="scoreProgressFill"></div>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <!-- Limitations Notice -->
+    <div class="limitations-box">
+      <div class="limitations-icon">ℹ️</div>
+      <div>
+        <h4>Frontend Tool Limitations</h4>
+        <p>This tool runs entirely in your browser. It can only analyze pages that allow cross-origin requests (CORS). The following checks are <strong>not possible</strong> from a browser: server response codes, crawl depth, backlink analysis, Core Web Vitals, JavaScript-rendered content, XML sitemaps, and structured data validation. For comprehensive audits, consider a Node.js backend proxy or tools like Google Search Console, Ahrefs, or Screaming Frog.</p>
+        <p class="backend-hint">💡 <strong>Want full power?</strong> A simple Node.js + Express backend with <code>node-fetch</code> bypasses all CORS limitations and enables full page rendering analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── CORS ERROR ───────────── -->
+  <div class="error-banner" id="errorBanner" hidden>
+    <div class="error-icon">🚫</div>
+    <div class="error-content">
+      <h3 id="errorTitle">Cannot fetch website</h3>
+      <p id="errorMsg">Cannot fetch website due to browser security (CORS). Use a backend proxy for full analysis.</p>
+    </div>
+    <button class="error-close" id="errorClose">✕</button>
+  </div>
+
+  <footer class="site-footer">
+    <p>SEOlens — Built for portfolio & freelance use &nbsp;·&nbsp; CORS-limited browser tool &nbsp;·&nbsp; No data stored</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
