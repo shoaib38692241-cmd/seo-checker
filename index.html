@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <div class="nav-item active" onclick="showSection('overview')">📊 Overview</div>
+            <div class="nav-item" onclick="showSection('analytics')">📈 Analytics</div>
+            <div class="nav-item" onclick="showSection('users')">👥 Users</div>
+            <div class="nav-item" onclick="showSection('settings')">⚙️ Settings</div>
+        </div>
+
+        <div class="header">
+            <h1>Dashboard Overview</h1>
+            <div class="user-info">
+                <span id="current-time"></span>
+                <div class="user-avatar">AR</div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="stats-grid">
+                <div class="stat-card pulse">
+                    <div class="stat-number" id="users-count">1,234</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-change positive">+12% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="revenue-count">₹4,56,789</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                    <div class="stat-change positive">+8% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="orders-count">456</div>
+                    <div class="stat-label">Orders</div>
+                    <div class="stat-change negative">-3% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="conversion-rate">3.2%</div>
+                    <div class="stat-label">Conversion Rate</div>
+                    <div class="stat-change positive">+0.5% from last month</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Monthly Performance</div>
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Recent Activity</div>
+                    <div class="activity-list" id="activity-list">
+                        <div class="activity-item">
+                            <div>New user registration</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                        <div class="activity-item">
+                            <div>Order #1234 completed</div>
+                            <div class="activity-time">5 minutes ago</div>
+                        </div>
+                        <div class="activity-item">
+                            <div>Payment received</div>
+                            <div class="activity-time">10 minutes ago</div>
+                        </div>
+                        <div class="activity-item">
+                            <div>System backup completed</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="chart-title">Recent Transactions</div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-table">
+                        <tr>
+                            <td>#1001</td>
+                            <td>Rajesh Kumar</td>
+                            <td>₹2,499</td>
+                            <td><span class="status-badge status-active">Completed</span></td>
+                            <td>15-01-2024</td>
+                        </tr>
+                        <tr>
+                            <td>#1002</td>
+                            <td>Priya Sharma</td>
+                            <td>₹999</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>14-01-2024</td>
+                        </tr>
+                        <tr>
+                            <td>#1003</td>
+                            <td>Amit Patel</td>
+                            <td>₹1,999</td>
+                            <td><span class="status-badge status-active">Completed</span></td>
+                            <td>13-01-2024</td>
+                        </tr>
+                        <tr>
+                            <td>#1004</td>
+                            <td>Sneha Reddy</td>
+                            <td>₹799</td>
+                            <td><span class="status-badge status-inactive">Failed</span></td>
+                            <td>12-01-2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
